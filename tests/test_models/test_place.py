@@ -15,55 +15,55 @@ class test_Place(test_basemodel):
 
     def test_city_id(self):
         """ """
-        new = self.value()
-        self.assertEqual(type(new.city_id), str)
+        self.value.city_id = "re54wre-rwe5r74"
+        self.assertEqual(type(self.value.city_id), str)
 
     def test_user_id(self):
         """ """
-        new = self.value()
-        self.assertEqual(type(new.user_id), str)
+        self.value.user_id = "re54wre-rwe5r74"
+        self.assertEqual(type(self.value.user_id), str)
 
     def test_name(self):
         """ """
-        new = self.value()
-        self.assertEqual(type(new.name), str)
+        self.value.name = "Ali"
+        self.assertEqual(type(self.value.name), str)
 
     def test_description(self):
         """ """
-        new = self.value()
-        self.assertEqual(type(new.description), str)
+        self.value.description = "Good"
+        self.assertEqual(type(self.value.description), str)
 
     def test_number_rooms(self):
         """ """
-        new = self.value()
-        self.assertEqual(type(new.number_rooms), int)
+        self.value.number_rooms = 5
+        self.assertEqual(type(self.value.number_rooms), int)
 
     def test_number_bathrooms(self):
         """ """
-        new = self.value()
-        self.assertEqual(type(new.number_bathrooms), int)
+        self.value.number_bathrooms = 3
+        self.assertEqual(type(self.value.number_bathrooms), int)
 
     def test_max_guest(self):
         """ """
-        new = self.value()
-        self.assertEqual(type(new.max_guest), int)
+        self.value.max_guest = 15
+        self.assertEqual(type(self.value.max_guest), int)
 
     def test_price_by_night(self):
         """ """
-        new = self.value()
-        self.assertEqual(type(new.price_by_night), int)
+        self.value.price_by_night = 95
+        self.assertEqual(type(self.value.price_by_night), int)
 
     def test_latitude(self):
         """ """
-        new = self.value()
-        self.assertEqual(type(new.latitude), float)
+        self.value.latitude = 1.5
+        self.assertEqual(type(self.value.latitude), float)
 
     def test_longitude(self):
         """ """
-        new = self.value()
-        self.assertEqual(type(new.latitude), float)
+        self.value.longitude = 8.6
+        self.assertEqual(type(self.value.longitude), float)
 
     def test_amenity_ids(self):
         """ """
-        new = self.value()
-        self.assertEqual(type(new.amenity_ids), list)
+        self.value = self.value()
+        self.assertEqual(type(self.value.amenity_ids), list)

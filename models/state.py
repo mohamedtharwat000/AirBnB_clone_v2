@@ -10,7 +10,7 @@ from os import getenv
 
 class State(BaseModel, Base):
     """ State class """
-    
+
     __tablename__ = 'states'
 
     name = Column(String(128), nullable=False)
@@ -22,4 +22,5 @@ class State(BaseModel, Base):
             """Getter attribute for cities"""
 
             city_instances = models.storage.all(City)
-            return [city for city in city_instances.values() if city.state_id == self.id]
+            return [city for city in city_instances.values()
+                    if city.state_id == self.id]

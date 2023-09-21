@@ -31,7 +31,7 @@ class DBStorage:
 
     def all(self, cls=None):
         """Queries all objects of a certain class, or all of cls=None"""
-    
+
         classes = []
         if cls:
             classes = [cls]
@@ -58,7 +58,7 @@ class DBStorage:
 
     def delete(self, obj=None):
         """Deletes obj from the current database session"""
-        
+
         if obj is not None:
             self.__session.delete(obj)
 
@@ -67,7 +67,6 @@ class DBStorage:
 
         Base.metadata.create_all(self.__engine)
 
-        my_session = sessionmaker(bind=self.__engine,
-                                      expire_on_commit=False)
+        my_session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(my_session)
         self.__session = Session()

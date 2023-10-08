@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" doc """
+
 from fabric.api import run, put, env
 from os import path
 

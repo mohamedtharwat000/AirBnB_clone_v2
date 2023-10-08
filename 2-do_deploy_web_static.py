@@ -17,8 +17,7 @@ def do_deploy(archive_path):
         put(archive_path, '/tmp/')
 
         archive_filename = archive_path.split('/')[-1]
-        release_folder = f'/data/web_static/releases/\
-                {archive_filename.split(".")[0]}'
+        release_folder = f'/data/web_static/releases/{archive_filename.split(".")[0]}'
 
         run(f'mkdir -p {release_folder}')
         run(f'tar -xzf /tmp/{archive_filename} -C {release_folder}')
@@ -26,7 +25,7 @@ def do_deploy(archive_path):
         run(f'rm /tmp/{archive_filename}')
 
         run(f'mv {release_folder}/web_static/* {release_folder}')
-
+        run(f'rm -r {release_folder}/web_static/')
         run('rm -rf /data/web_static/current')
 
         run(f'ln -s {release_folder} /data/web_static/current')
@@ -34,5 +33,4 @@ def do_deploy(archive_path):
         return True
 
     except Exception as e:
-        print(e)
         return False

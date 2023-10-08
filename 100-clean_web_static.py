@@ -4,8 +4,6 @@ import os
 from fabric.api import *
 
 env.hosts = ["100.26.53.140", "100.26.244.194"]
-env.user = 'ubuntu'
-env.key_filename = ['~/.ssh/school']
 
 
 def do_clean(number):
@@ -14,7 +12,7 @@ def do_clean(number):
     number = int(number)
 
     if number < 1:
-            number = 1
+        number = 1
 
     with lcd('versions'):
         archives = sorted(local('ls -t *.tgz', capture=True).split('\n'))
@@ -29,4 +27,4 @@ def do_clean(number):
         archives = archives[:number]
 
         for arc in archives:
-            run(f'rm -rf ./{arc}') 
+            run(f'rm -rf ./{arc}')

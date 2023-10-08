@@ -1,6 +1,7 @@
 #!/usr/bin/python3
-
-from fabric.api import run, put, env
+"""doc"""
+from datetime import datetime
+from fabric.api import run, put, env, local
 from os import path
 
 
@@ -34,3 +35,31 @@ def do_deploy(archive_path):
 
     except Exception as e:
         return False
+
+
+def do_pack():
+    """ Compress before sending """
+
+    try:
+        local("mkdir -p versions")
+
+        now = datetime.now()
+        time = now.strftime("%Y%m%d%H%M%S")
+
+        archive_name = f"web_static_{time}.tgz"
+        local(f"tar -cvzf versions/{archive_name} web_static")
+
+        return (f"versions/{archive_name}")
+
+    except Exception as e:
+        return None
+
+
+def deploy():
+    """makes the whole deploy at once"""
+
+    path = do_pack()
+    if not path:
+        return False
+
+    return do_deploy(path)

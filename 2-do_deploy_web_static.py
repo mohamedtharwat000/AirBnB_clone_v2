@@ -1,36 +1,54 @@
 #!/usr/bin/python3
-""" doc """
-from fabric.api import run, put, env
-from os import path
+"""Script that generates a .tgz archive from the contents of the web_static."""
 
+from fabric.api import local, env, put, run
+from datetime import datetime
+import os.path as path
 
 env.hosts = ["100.26.212.225", "100.26.233.38"]
-env.user = 'ubuntu'
-env.key_filename = ['~/.ssh/school']
+
+
+def do_pack():
+    """ Compress before sending """
+
+    try:
+        local("mkdir -p versions")
+
+        now = datetime.now()
+        time = now.strftime("%Y%m%d%H%M%S")
+
+        archive_name = f"web_static_{time}.tgz"
+        local(f"tar -cvzf versions/{archive_name} web_static")
+
+        return (f"versions/{archive_name}")
+
+    except Exception as error:
+        return None
 
 
 def do_deploy(archive_path):
-    """ Deploy archive to the web server """
+    """Distributes an archive to your web servers."""
 
     if not path.exists(archive_path):
         return False
 
     try:
-        put(archive_path, '/tmp/')
+        file = archive_path.split("/")[-1]
+        filename = file.split(".")[0]
+        releases_path = f"/data/web_static/releases/{filename}/"
 
-        archive_filename = archive_path.split('/')[-1]
-        release_folder = f'/data/web_static/releases/{archive_filename.split(".")[0]}'
+        put(archive_path, "/tmp/")
 
-        run(f'mkdir -p {release_folder}')
-        run(f'tar -xzf /tmp/{archive_filename} -C {release_folder}')
+        run(f"mkdir -p {releases_path}")
+        run(f"tar -xzf /tmp/{file} -C {releases_path}")
 
-        run(f'rm /tmp/{archive_filename}')
+        run(f"rm /tmp/{file}")
 
-        run(f'mv -f {release_folder}/web_static/* {release_folder}')
-        run(f'rm -rf {release_folder}/web_static/')
-        run('rm -rf /data/web_static/current')
+        run(f"mv {releases_path}web_static/* {releases_path}")
+        run(f"rm -rf {releases_path}/web_static")
 
-        run(f'ln -s {release_folder} /data/web_static/current')
+        run("rm -rf /data/web_static/current")
+        run(f"ln -s {releases_path} /data/web_static/current")
 
         return True
 

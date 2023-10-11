@@ -1,42 +1,11 @@
 #!/usr/bin/python3
-"""doc"""
-from datetime import datetime
-from fabric.api import run, put, env, local
-from os import path
+"""Script that generates a .tgz archive from the contents of the web_static."""
 
+from fabric.api import local, env, put, run
+from datetime import datetime
+import os.path as path
 
 env.hosts = ["100.26.212.225", "100.26.233.38"]
-env.user = 'ubuntu'
-env.key_filename = ['~/.ssh/alx']
-
-
-def do_deploy(archive_path):
-    """ Deploy archive to the web server """
-
-    if not path.exists(archive_path):
-        return False
-
-    try:
-        put(archive_path, '/tmp/')
-
-        archive_filename = archive_path.split('/')[-1]
-        release_folder = f'/data/web_static/releases/{archive_filename.split(".")[0]}'
-
-        run(f'mkdir -p {release_folder}')
-        run(f'tar -xzf /tmp/{archive_filename} -C {release_folder}')
-
-        run(f'rm /tmp/{archive_filename}')
-
-        run(f'mv -f {release_folder}/web_static/* {release_folder}')
-        run(f'rm -rf {release_folder}/web_static/')
-        run('rm -rf /data/web_static/current')
-
-        run(f'ln -s {release_folder} /data/web_static/current')
-
-        return True
-
-    except Exception as e:
-        return False
 
 
 def do_pack():
@@ -53,8 +22,38 @@ def do_pack():
 
         return (f"versions/{archive_name}")
 
-    except Exception as e:
+    except Exception as error:
         return None
+
+
+def do_deploy(archive_path):
+    """Distributes an archive to your web servers."""
+
+    if not path.exists(archive_path):
+        return False
+
+    try:
+        file = archive_path.split("/")[-1]
+        filename = file.split(".")[0]
+        releases_path = f"/data/web_static/releases/{filename}/"
+
+        put(archive_path, "/tmp/")
+
+        run(f"mkdir -p {releases_path}")
+        run(f"tar -xzf /tmp/{file} -C {releases_path}")
+
+        run(f"rm /tmp/{file}")
+
+        run(f"mv {releases_path}web_static/* {releases_path}")
+        run(f"rm -rf {releases_path}/web_static")
+
+        run("rm -rf /data/web_static/current")
+        run(f"ln -s {releases_path} /data/web_static/current")
+
+        return True
+
+    except Exception as error:
+        return False
 
 
 def deploy():

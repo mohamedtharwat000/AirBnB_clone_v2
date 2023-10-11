@@ -5,9 +5,10 @@ from fabric.api import run, put, env, local
 from os import path
 
 
-env.hosts = ["100.26.53.140", "100.26.244.194"]
+env.hosts = ["100.26.212.225", "100.26.233.38"]
 env.user = 'ubuntu'
-env.key_filename = ['~/.ssh/school']
+env.key_filename = ['~/.ssh/alx']
+
 
 def do_deploy(archive_path):
     """ Deploy archive to the web server """

@@ -18,5 +18,5 @@ def do_pack():
 
         return (f"versions/{archive_name}")
 
-    except Exception as e:
+    except Exception as error:
         return None

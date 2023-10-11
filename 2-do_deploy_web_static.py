@@ -25,6 +25,7 @@ def do_deploy(archive_path):
         run(f'tar -xzf /tmp/{archive_filename} -C {release_folder}')
 
         run(f'rm /tmp/{archive_filename}')
+
         run('rm -rf /data/web_static/current')
         run(f'ln -s {release_folder} /data/web_static/current')
 

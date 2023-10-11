@@ -2,6 +2,7 @@
 # Prepare a web server
 
 sudo apt update
+sudo apt upgrade -y
 sudo apt install -y nginx
 
 sudo service nginx start
@@ -13,18 +14,20 @@ sudo mkdir -p /data/web_static/releases/
 sudo mkdir -p /data/web_static/shared/
 sudo mkdir -p /data/web_static/releases/test/
 sudo touch /data/web_static/releases/test/index.html
-printf %s "<html>
+printf \
+"<html>
   <head>
   </head>
   <body>
-    <h4>Test Nginx</h4>
+    <h1>Test Nginx</h1>
   </body>
-</html>" | sudo tee file /data/web_static/releases/test/index.html
+</html>" | sudo tee /data/web_static/releases/test/index.html
 
 sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 sudo chown -R ubuntu:ubuntu /data/
 
-sudo sed -i '/server_name _;/a location /hbnb_static { alias /data/web_static/current/;}' /etc/nginx/sites-enabled/default
+sudo sed -i '/server_name _;/a \
+        location /hbnb_static {alias /data/web_static/current/;}' /etc/nginx/sites-available/default
 
-sudo service nginx restart
+sudo nginx -s reload

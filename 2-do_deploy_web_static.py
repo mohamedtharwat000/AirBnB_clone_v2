@@ -4,9 +4,9 @@ from fabric.api import run, put, env
 from os import path
 
 
-env.hosts = ["100.26.53.140", "100.26.244.194"]
+env.hosts = ["100.26.212.225", "100.26.233.38"]
 env.user = 'ubuntu'
-env.key_filename = ['~/.ssh/school']
+env.key_filename = ['~/.ssh/alx']
 
 
 def do_deploy(archive_path):
@@ -25,14 +25,10 @@ def do_deploy(archive_path):
         run(f'tar -xzf /tmp/{archive_filename} -C {release_folder}')
 
         run(f'rm /tmp/{archive_filename}')
-
-        run(f'mv -f {release_folder}/web_static/* {release_folder}')
-        run(f'rm -rf {release_folder}/web_static/')
         run('rm -rf /data/web_static/current')
-
         run(f'ln -s {release_folder} /data/web_static/current')
 
         return True
 
-    except Exception as e:
+    except Exception as error:
         return False

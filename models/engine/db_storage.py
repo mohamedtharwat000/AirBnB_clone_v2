@@ -11,9 +11,8 @@ from models.review import Review
 from models.amenity import Amenity
 from os import getenv
 
-
 class DBStorage:
-    """The DBStorage class that manage the Database"""
+    """The DBStorage class that manages the database"""
 
     __engine = None
     __session = None
@@ -28,6 +27,10 @@ class DBStorage:
 
         if getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
+
+        my_session = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(my_session)
+        self.__session = Session()
 
     def all(self, cls=None):
         """Queries all objects of a certain class, or all of cls=None"""
@@ -70,3 +73,7 @@ class DBStorage:
         my_session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(my_session)
         self.__session = Session()
+
+    def close(self):
+        """Close private session"""
+        self.__session.close()

@@ -9,6 +9,7 @@ from models.user import User
 from models.review import Review
 from models.amenity import Amenity
 
+
 class FileStorage:
     """This class manages storage of hbnb models in JSON format"""
     __file_path = 'file.json'

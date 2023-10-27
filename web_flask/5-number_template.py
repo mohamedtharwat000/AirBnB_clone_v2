@@ -40,10 +40,10 @@ def number_n(n):
     return f"{n} is a number"
 
 
-@app.route('/number_template/<int:n>', strict_slashes=False)
-def number_template(n):
-    """display a HTML page only if n is an integer."""
-    return render_template('templates/5-number.html', n=n)
+@app.route("/number_template/<int:n>", strict_slashes=False)
+def render_number(n):
+    """Route Number."""
+    return render_template('5-number.html', n=n)
 
 
 if __name__ == '__main__':

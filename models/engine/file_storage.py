@@ -9,7 +9,6 @@ from models.user import User
 from models.review import Review
 from models.amenity import Amenity
 
-
 class FileStorage:
     """This class manages storage of hbnb models in JSON format"""
     __file_path = 'file.json'
@@ -66,9 +65,10 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        """
-            Delete an object from the __objects Dict.
-        """
-
+        """Delete object from __objects dict"""
         if obj is not None:
             del FileStorage.__objects[f'{type(obj).__name__}.{obj.id}']
+
+    def close(self):
+        """Call reload() method to deserialize JSON file"""
+        self.reload()
